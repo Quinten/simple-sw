@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Quinten/simple-sw/issues"
   },
-  "homepage": "https://github.com/Quinten/simple-sw#readme"
+  "homepage": "https://github.com/Quinten/simple-sw#readme",
+  "peerDependencies": {
+    "html-webpack-plugin": "3.x"
+  }
 }
