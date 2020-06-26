@@ -68,6 +68,8 @@ self.addEventListener('fetch', event => {
 
 const REGISTERCODE = `<script>if ('serviceWorker' in navigator) {window.addEventListener('load', function () {navigator.serviceWorker.register('sw.js?v={{VERSION}}');});}</script>`;
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 class SimpleSW {
     constructor ({ version }) {
         this.version = version;
@@ -103,12 +105,8 @@ ${filelist}];
         });
 
         compiler.hooks.compilation.tap('swregister', compilation => {
-            compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tap('swregister', ({ html }) => {
-
-
-                return {
-                    html: html.replace('</body>', REGISTERCODE.replace(/{{VERSION}}/g, this.version) + '</body>')
-                };
+            HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tap('swregister', (data) => {
+                data.html = data.html.replace('</body>', REGISTERCODE.replace(/{{VERSION}}/g, this.version) + '</body>');
             });
         });
     }
